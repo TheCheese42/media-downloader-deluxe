@@ -1,4 +1,34 @@
+# Virtualenv
 .venv/
+
+# Nuitka build/dist files
 __main__.build/
 __main__.dist/
+
+# Python cache
 __pycache__/
+
+# VSCode config
+.vscode/
+
+# Local dev scripts
+compile_ui.ps1
+build.ps1
+update_ytdlp_in_lib.ps1
+build_installer.ps1
+download_and_extract_wix.ps1
+
+# Binaries
+lib/
+
+# Generated ui files
+media_downloader_deluxe/ui/*_ui.py
+
+# wix
+*.wxs
+*.cab
+*.msi
+*.wixobj
+*.wixpdb
+wix.zip
+wix/
