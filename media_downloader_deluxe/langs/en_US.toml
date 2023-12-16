@@ -1,0 +1,87 @@
+[meta]
+langcode = "en_US"
+name = "English"
+
+[strings]
+question_update_ytdlp_title = "New YT-DLP version available!"
+question_update_ytdlp_desc = "A new YT-DLP Version has been detected. Do you want to upgrade now (highly recommended)? You can always upgrade later in the settings."
+update_updating_desc = "Updated YT-DLP!\nOld version: {old}\nNew version: {new}"
+update_updating_title = "Updated!"
+
+file = "File"
+open = "Open..."
+clear_list = "Clear list"
+open_in_explorer = "Open in Explorer"
+undo = "Undo"
+redo = "Redo"
+exit = "Exit"
+settings = "Settings"
+open_settings = "Open Settings..."
+view = "View"
+dark_mode = "Dark Mode"
+language = "Language"
+help = "Help"
+about = "About"
+open_source_licenses = "Open Source Licenses"
+list_of_supported_sites = "List of supported sites"
+
+type = "Type:"
+quality = "Quality:"
+download_in_parallel = "Download in Parallel"
+output_path = "Output path:"
+change = "Change"
+video = "Video"
+music = "Music"
+video_only = "Video only"
+worst = "Worst"
+very_bad = "Very bad"
+bad = "Bad"
+normal = "Normal"
+good = "Good"
+best = "Best"
+progress = "Progress"
+start = "Start"
+
+error_open_title = "Error opening file"
+error_open_text = "Can't open file {file} ({error})"
+
+malformed_url_title = "Invalid URL!"
+malformed_url_desc = "Invalid URL at line {idx}.\n\n{url}"
+
+no_input_title = "No input detected!"
+no_input_desc = "No did not enter any input."
+
+download_error_title = "Unable to download"
+download_error_desc = "Unable to download video at URL {url}.\nPlease make sure the URL points to a valid address and is from a supported site and try again."
+
+success_title = "Download finished!"
+success_desc = "Successfully downloaded {amount} videos."
+
+not_writable_title = "Path not writable!"
+not_writable_desc = "The path you selected is not writable. Please make sure you did not select any system directory.\n\nA good path to set is the user's movies directory."
+
+no_connection_title = "No connection!"
+no_connection_desc = "You are not connected to the internet."
+
+about_author = "by Dominik Reinartz"
+about_version = "Version {version}"
+
+settings_header = "Settings"
+settings_max_parallel_downloads = "Max parallel downloads"
+settings_ytdlp_version = "YT-DLP version:"
+settings_default_output_path = "Default output path:"
+settings_change = "Change"
+settings_update = "Update"
+settings_updating = "Updating..."
+settings_update_uptodate_title = "Already up-to-date!"
+settings_update_uptodate_desc = "YT-DLP is already on the latest version ({version})!"
+settings_update_updating_title = "Updated!"
+settings_update_updating_desc = "Updated YT-DLP!\nOld version: {old}\nNew version: {new}\n\nYou might have to restart the app for the changes to take effect."
+settings_update_noconn_title = "Update failed!"
+settings_update_noconn_desc = "You are not connected to the internet. Please establish a connection and try again!"
+
+licenses_header = "Open source licenses"
+
+window_settings = "Settings"
+window_licenses = "Open source licenses"
+window_about = "About"

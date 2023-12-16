@@ -1,0 +1,87 @@
+[meta]
+langcode = "de_DE"
+name = "Deutsch"
+
+[strings]
+question_update_ytdlp_title = "Neue YT-DLP Version verfügbar!"
+question_update_ytdlp_desc = "Eine neue YT-DLP Version wurde gefunden. Möchten Sie jetzt aktualisieren (sehr empfohlen)? Sie können es jederzeit in den Einstellungen nachholen."
+update_updating_title = "Aktualisiert!"
+update_updating_desc = "YT-DLP wurde auf die neueste Version aktualisiert!\nAlte Version: {old}\nNeue version: {new}"
+
+file = "Datei"
+open = "Öffnen..."
+clear_list = "Liste leeren"
+open_in_explorer = "Im Explorer anzeigen"
+undo = "Rückgängig machen"
+redo = "Wiederherstellen"
+exit = "Beenden"
+settings = "Einstellungen"
+open_settings = "Einstellungen öffnen..."
+view = "Ansicht"
+dark_mode = "Dunkler Modus"
+language = "Sprache"
+help = "Hilfe"
+about = "Über"
+open_source_licenses = "Open source Lizenzen"
+list_of_supported_sites = "Liste aller unterstützten Seiten"
+
+type = "Typ:"
+quality = "Qualität:"
+download_in_parallel = "Parallel herunterladen"
+output_path = "Ausgabepfad:"
+change = "Ändern"
+video = "Video"
+music = "Musik"
+video_only = "Nur Video"
+worst = "Am schlechtesten"
+very_bad = "Sehr schlecht"
+bad = "Schlecht"
+normal = "Normal"
+good = "Gut"
+best = "Am besten"
+progress = "Fortschritt"
+start = "Start"
+
+error_open_title = "Fehler beim öffnen der Datei"
+error_open_text = "Die Datei {file} kann nicht geöffnet werden ({error})"
+
+malformed_url_title = "Ungültige URL!"
+malformed_url_desc = "Ungültige URL in Zeile {idx}.\n\n{url}"
+
+no_input_title = "Keine Eingabe erkannt!"
+no_input_desc = "Sie haben nichts eingegeben."
+
+download_error_title = "Herunterladen nicht möglich."
+download_error_desc = "Das Video mit der URL {url} kann nicht heruntergeladen werden.\nBitte stelle sicher, dass sie zu einer gültigen Adresse zeigt und von einer unterstützten Seite stammt und versuche es erneut."
+
+success_title = "Download fertiggestellt!"
+success_desc = "{amount} Videos wurden erfolgreich heruntergeladen."
+
+not_writable_title = "Pfad nicht beschreibbar!"
+not_writable_desc = "Der ausgewählte Pfad ist nicht beschreibbar. Bitte stellen Sie sicher, dass Sie keinen Systemordner ausgewählt haben.\n\nEin guter Standartpfad ist der Filme Ordner des Benutzers."
+
+no_connection_title = "Keine Verbindung!"
+no_connection_desc = "Sie sind nicht mit dem Internet verbunden."
+
+about_author = "von Dominik Reinartz"
+about_version = "Version {version}"
+
+settings_header = "Einstellungen"
+settings_max_parallel_downloads = "maximale parallele Downloads"
+settings_ytdlp_version = "YT-DLP Version:"
+settings_default_output_path = "Standartausgabepfad:"
+settings_change = "Ändern"
+settings_update = "Aktualisieren"
+settings_updating = "Wird aktualisiert..."
+settings_update_uptodate_title = "Alles ist auf dem neuesten Stand!"
+settings_update_uptodate_desc = "YT-DLP ist bereits auf der neuesten Version ({version})!"
+settings_update_updating_title = "Aktualisiert!"
+settings_update_updating_desc = "YT-DLP wurde auf die neueste Version aktualisiert!\nAlte Version: {old}\nNeue version: {new}\n\nSie müssen das Programm eventuell neu starten, damit die Änderungen wirksam werden."
+settings_update_noconn_title = "Aktualisieren fehlgeschlagen!"
+settings_update_noconn_desc = "Sie sind nicht mit dem Internet verbunden. Bitte stellen Sie eine Internetverbindung her und versuche es erneut!"
+
+licenses_header = "Open source Lizenzen"
+
+window_settings = "Einstellungen"
+window_licenses = "Open source Lizenzen"
+window_about = "Über"
