@@ -66,6 +66,9 @@ no_connection_desc = "Sie sind nicht mit dem Internet verbunden."
 killall_error_title = "Fehler beim herunterladen..."
 killall_error_desc = "Beim Herunterladen ist ein Fehler aufgekommen. Bitte versuche es erneut."
 
+close_confirm_title = "Schließen bestätigen"
+close_confirm_desc = "Sind Sie sicher, dass sie den Download abbrechen wollen?"
+
 about_author = "von Dominik Reinartz"
 about_version = "Version {version}"
 

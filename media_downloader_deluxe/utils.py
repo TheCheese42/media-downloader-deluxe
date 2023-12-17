@@ -143,12 +143,14 @@ def ask_yes_no_question(
     parent,
     title: str,
     desc: str,
-) -> int:
+) -> bool:
     messagebox = QMessageBox(parent)
     messagebox.setIcon(QMessageBox.Icon.Question)
     messagebox.setWindowTitle(title)
     messagebox.setText(desc)
-    messagebox.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+    messagebox.setStandardButtons(
+        QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+    )
     messagebox.setDefaultButton(QMessageBox.StandardButton.Yes)
     reply = messagebox.exec()
     if reply == QMessageBox.StandardButton.Yes:

@@ -530,11 +530,17 @@ class Window(QMainWindow, Ui_MainWindow):
     # XXX         self.actionRedo.setDisabled(True)
     # XXX     self.actionUndo.setDisabled(False)
 
-    def close(self):
+    def closeEvent(self, event: QCloseEvent):
         if self.downloading:
-            pass
-        else:
-            super().close()
+            response = utils.ask_yes_no_question(
+                self,
+                self.lang["close_confirm_title"],
+                self.lang["close_confirm_desc"],
+            )
+            if response:
+                pass
+            else:
+                event.ignore()
 
     def open_settings(self):
         dialog = SettingsDialog(self)

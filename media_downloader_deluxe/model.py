@@ -76,7 +76,7 @@ class Logger:
             iso_string = datetime.datetime.now().replace(
                 microsecond=0
             ).isoformat()
-            fp.write(f"[{iso_string}]{text}")
+            fp.write(f"[{iso_string}]{text}\n")
 
     def debug(self, msg: str):
         self.log(f"[DEBUG] {msg}")
