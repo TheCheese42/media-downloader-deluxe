@@ -22,6 +22,7 @@ except ImportError:
 
 import functools
 import sys
+import traceback
 import webbrowser
 from subprocess import getoutput
 from typing import Optional
@@ -239,9 +240,8 @@ class Window(QMainWindow, Ui_MainWindow):
                 self.lang["killall_error_title"],
                 self.lang["killall_error_desc"],
             )
-            utils.restart_process()
         self.should_stop_timer = True
-        self.should_cleanup = True
+        QTimer.singleShot(1000, self.cleanup_dl)
 
     def start(self):
         if not self.verify_input():
@@ -404,6 +404,7 @@ class Window(QMainWindow, Ui_MainWindow):
         )
         self.actionUndo.setText(self.lang["undo"])
         self.actionRedo.setText(self.lang["redo"])
+        self.actionCancel.setText(self.lang["cancel"])
         self.actionExit.setText(self.lang["exit"])
         self.menuSettings.setTitle(self.lang["settings"])
         self.actionOpen_Settings.setText(self.lang["open_settings"])
@@ -568,7 +569,6 @@ class Window(QMainWindow, Ui_MainWindow):
         )
 
     def about(self):
-        raise RuntimeError("L")
         dialog = AboutDialog(self)
         dialog.exec()
 
@@ -701,8 +701,9 @@ class SettingsDialog(QDialog, Ui_Settings):
             self.output_path_display.setText(dir)
 
 
-def exchook(cls, exception, traceback):
-    LOGGER.error(f"{cls.__name__}: {exception}")
+def exchook(*exc_info):
+    text = "".join(traceback.format_exception(*exc_info))
+    LOGGER.error(text)
 
 
 if __name__ == "__main__":

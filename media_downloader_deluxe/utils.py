@@ -38,7 +38,7 @@ def find_key(dict: dict, value: str):
 
 def restart_process():
     if "__compiled__" in globals():
-        os.execv(sys.argv[0], sys.argv[1:])
+        os.execv(sys.argv[0], sys.argv)
     else:
         os.execv(sys.executable, [os.path.basename(sys.executable)] + sys.argv)
 
