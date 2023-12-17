@@ -29,7 +29,7 @@ from typing import Optional
 import enums
 import lang
 import utils
-from model import DownloadManager, is_writable
+from model import LOGGER, DownloadManager, is_writable
 from PyQt6.QtCore import QLibraryInfo, Qt, QTimer, QTranslator
 from PyQt6.QtGui import QCloseEvent, QFont, QIcon
 from PyQt6.QtWidgets import QApplication, QDialog, QFileDialog, QMainWindow
@@ -562,6 +562,7 @@ class Window(QMainWindow, Ui_MainWindow):
         )
 
     def about(self):
+        raise RuntimeError("L")
         dialog = AboutDialog(self)
         dialog.exec()
 
@@ -694,7 +695,12 @@ class SettingsDialog(QDialog, Ui_Settings):
             self.output_path_display.setText(dir)
 
 
+def exchook(cls, exception, traceback):
+    LOGGER.error(f"{cls.__name__}: {exception}")
+
+
 if __name__ == "__main__":
+    sys.excepthook = exchook
     lang.LangDict.set_languages_path(Path(__file__).parent / "langs")
     app = QApplication(sys.argv)
 
@@ -709,8 +715,8 @@ if __name__ == "__main__":
             QLibraryInfo.LibraryPath.TranslationsPath
         )
     )
-    translator.load
     app.installTranslator(translator)
     win = Window()
     win.show()
-    sys.exit(app.exec())
+    code = app.exec()
+    sys.exit(code)

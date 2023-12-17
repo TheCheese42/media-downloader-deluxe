@@ -59,12 +59,20 @@ def can_write(file: Union[str, Path]):
 
 
 class Logger:
+    def __init__(self):
+        self.first_log = True
+
     def log(self, text: str):
         create_app_dir()
         if not LOGGER_PATH.exists():
             with open(LOGGER_PATH, "x"):
                 pass
-        with open(LOGGER_PATH, mode="a", encoding="utf-8") as fp:
+        if self.first_log:
+            mode = "w"
+        else:
+            mode = "a"
+        self.first_log = False
+        with open(LOGGER_PATH, mode=mode, encoding="utf-8") as fp:
             iso_string = datetime.datetime.now().replace(
                 microsecond=0
             ).isoformat()
