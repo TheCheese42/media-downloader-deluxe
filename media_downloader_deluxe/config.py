@@ -1,7 +1,7 @@
 import json
 import locale
 from pathlib import Path
-
+import platform
 from PyQt6.QtCore import QStandardPaths
 
 CONFIG_DIR = Path(
@@ -16,9 +16,10 @@ YT_DLP_PATH = CONFIG_DIR / "yt-dlp"
 SUPPORTED_LOCALES = ["de_DE", "en_US"]
 DEFAULT_LOCALE = "en_US"
 SYSTEM_LOCALE = locale.getlocale()[0]
+FFMPEG_BIN_NAME = "ffmpeg.exe" if platform.system() == "Windows" else "ffmpeg"
 FFMPEG_PATH = (Path(
     __file__
-).parent / "lib" / "ffmpeg" / "bin" / "ffmpeg").resolve()
+).parent / "lib" / "ffmpeg" / "bin" / FFMPEG_BIN_NAME).resolve()
 
 
 def config_exists():

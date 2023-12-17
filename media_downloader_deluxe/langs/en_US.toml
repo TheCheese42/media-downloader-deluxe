@@ -63,6 +63,9 @@ not_writable_desc = "The path you selected is not writable. Please make sure you
 no_connection_title = "No connection!"
 no_connection_desc = "You are not connected to the internet."
 
+killall_error_title = "Error during download..."
+killall_error_desc = "An error occurred while downloading. Please try again."
+
 about_author = "by Dominik Reinartz"
 about_version = "Version {version}"
 

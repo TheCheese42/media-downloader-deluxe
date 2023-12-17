@@ -97,6 +97,7 @@ class Downloader:
             progress_hooks = []
         ydl_opts = {
             "logger": LOGGER,
+            "ffmpeg_location": str(FFMPEG_PATH),
             "progress_hooks": progress_hooks,
             "outtmpl": f"{path}/%(title)s.%(ext)s",
             "retries": math.inf,

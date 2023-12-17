@@ -231,7 +231,15 @@ class Window(QMainWindow, Ui_MainWindow):
         if not self.downloading:
             return
 
-        self.manager.killall()
+        try:
+            self.manager.killall()
+        except Exception:
+            utils.show_error(
+                self,
+                self.lang["killall_error_title"],
+                self.lang["killall_error_desc"],
+            )
+            utils.restart_process()
         self.should_stop_timer = True
         self.should_cleanup = True
 
