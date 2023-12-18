@@ -268,7 +268,6 @@ class DownloadManager:
                     if d["status"] == "finished":
                         self.url_to_threads[url].done = True
                         if type_ == Type.Music:
-                            print("Musicc")
                             Downloader.convert(
                                 Path(path) / d["filename"], ".mp3"
                             )
