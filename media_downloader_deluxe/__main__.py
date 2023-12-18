@@ -55,6 +55,7 @@ class Window(QMainWindow, Ui_MainWindow):
         self.setWindowState(Qt.WindowState.WindowActive)
         self.setupUi(self)
         self.cleanup_dl()
+        self.quality_box.setCurrentIndex(1)  # Good should be default
         self.lang_map = {
             "de_DE": self.actionDeutsch,
             "en_US": self.actionEnglish,
@@ -371,7 +372,7 @@ class Window(QMainWindow, Ui_MainWindow):
         )
 
     def type_changed(self):
-        self.quality_box.setCurrentIndex(0)
+        self.quality_box.setCurrentIndex(1)  # Good should be default
         self.apply_lang()
 
     def set_output_path(self):

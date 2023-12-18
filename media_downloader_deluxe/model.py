@@ -160,16 +160,10 @@ class Downloader:
         else:
             raise ValueError(f"Invalid value for quality: {quality}")
 
-        def convert_to_mp3_hook(d: dict[str, Any]):
-            if d["status"] == "finished":
-                full_path = path / d["filename"]
-                Downloader.convert(full_path, ".mp3")
-
         return Downloader.dl(
             urls,
             path,
             {"format": format, "final_ext": ".mp3", **options},
-            [convert_to_mp3_hook],
         )
 
     @staticmethod
@@ -274,6 +268,7 @@ class DownloadManager:
                     if d["status"] == "finished":
                         self.url_to_threads[url].done = True
                         if type_ == Type.Music:
+                            print("Musicc")
                             Downloader.convert(
                                 Path(path) / d["filename"], ".mp3"
                             )
