@@ -6,7 +6,7 @@ import re
 import threading
 from pathlib import Path
 from subprocess import getstatusoutput
-from typing import Any, Callable, Optional, Union
+from typing import Callable, Optional, Union
 import math
 
 from config import FFMPEG_PATH, LOGGER_PATH, create_app_dir
@@ -265,13 +265,13 @@ class DownloadManager:
                             ).group(1)
                         ))
                         self.url_to_threads[url].percent = percent
-                    if d["status"] == "finished":
+                    elif d["status"] == "finished":
                         self.url_to_threads[url].done = True
                         if type_ == Type.Music:
                             Downloader.convert(
                                 Path(path) / d["filename"], ".mp3"
                             )
-                    if d["status"] == "error":
+                    elif d["status"] == "error":
                         self.url_to_threads[url].done = True
                         self.url_to_threads[url].errored = True
                         if self.error_callback:
