@@ -2,12 +2,12 @@ import contextlib
 import ctypes
 import datetime
 import inspect
+import math
 import re
 import threading
 from pathlib import Path
 from subprocess import getstatusoutput
 from typing import Callable, Optional, Union
-import math
 
 from config import FFMPEG_PATH, LOGGER_PATH, create_app_dir
 from enums import Quality, Type
