@@ -49,7 +49,7 @@ def reload_zip_module(path: Union[str, Path], module: str):
     if module in sys.modules:
         del sys.modules[module]
 
-    importer = zipimport.zipimporter(path)
+    importer = zipimport.zipimporter(str(path))
     module_obj = importer.load_module(module)
     sys.modules[module] = module_obj
     importlib.invalidate_caches()
