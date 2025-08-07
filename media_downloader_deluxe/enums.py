@@ -1,4 +1,5 @@
 from enum import IntEnum
+from typing import Union
 
 
 class Type(IntEnum):
@@ -15,7 +16,7 @@ class Quality(IntEnum):
     VeryBad = 4
     Worst = 5
 
-    def is_quality(self, other):
+    def is_quality(self, other: Union["Quality", "MusicQuality"]) -> bool:
         if isinstance(other, Quality):
             return True if self == other else False
         elif isinstance(other, MusicQuality):
@@ -30,7 +31,7 @@ class Quality(IntEnum):
         else:
             raise TypeError(f"Can't compare with {type(other)}")
 
-    def to_standard(self):
+    def to_standard(self) -> "Quality":
         return self
 
 
@@ -39,7 +40,7 @@ class MusicQuality(IntEnum):
     Normal = 1
     Worst = 2
 
-    def is_quality(self, other):
+    def is_quality(self, other: Union["Quality", "MusicQuality"]) -> bool:
         if isinstance(other, MusicQuality):
             return True if self == other else False
         elif isinstance(other, Quality):
@@ -54,10 +55,10 @@ class MusicQuality(IntEnum):
         else:
             raise TypeError(f"Can't compare with {type(other)}")
 
-    def to_standard(self):
+    def to_standard(self) -> Quality:
         if self == self.Best:
             return Quality.Best
         elif self == self.Normal:
             return Quality.Normal
-        elif self == self.Worst:
+        else:
             return Quality.Worst

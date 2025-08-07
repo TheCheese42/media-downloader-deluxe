@@ -1,7 +1,9 @@
 import json
 import locale
-from pathlib import Path
 import platform
+from pathlib import Path
+from typing import Any, Union
+
 from PyQt6.QtCore import QStandardPaths
 
 CONFIG_DIR = Path(
@@ -17,21 +19,21 @@ SUPPORTED_LOCALES = ["de_DE", "en_US"]
 DEFAULT_LOCALE = "en_US"
 SYSTEM_LOCALE = locale.getlocale()[0]
 FFMPEG_BIN_NAME = "ffmpeg.exe" if platform.system() == "Windows" else "ffmpeg"
-FFMPEG_PATH = (Path(
+FFMPEG_PATH: Union[str, Path] = (Path(
     __file__
 ).parent / "lib" / "ffmpeg" / "bin" / FFMPEG_BIN_NAME).resolve()
 
 
-def config_exists():
+def config_exists() -> bool:
     return CONFIG_PATH.exists()
 
 
-def create_app_dir():
+def create_app_dir() -> None:
     if not CONFIG_DIR.exists():
         CONFIG_DIR.mkdir()
 
 
-def init_config():
+def init_config() -> None:
     create_app_dir()
 
     if not config_exists():
@@ -53,21 +55,21 @@ def init_config():
             )
 
 
-def _get_config() -> dict:
+def _get_config() -> dict[str, Any]:
     with open(CONFIG_PATH, "r", encoding="utf-8") as fp:
-        return json.load(fp)
+        return json.load(fp)  # type: ignore[no-any-return]
 
 
-def _overwrite_config(config: dict):
+def _overwrite_config(config: dict[str, Any]) -> None:
     with open(CONFIG_PATH, "w", encoding="utf-8") as fp:
         json.dump(config, fp)
 
 
-def get_config_value(key: str):
+def get_config_value(key: str) -> Any:
     return _get_config()[key]
 
 
-def set_config_value(key: str, value: str):
+def set_config_value(key: str, value: Any) -> None:
     config = _get_config()
     config[key] = value
     _overwrite_config(config)

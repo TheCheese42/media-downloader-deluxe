@@ -7,15 +7,16 @@ import re
 import threading
 from pathlib import Path
 from subprocess import getstatusoutput
-from typing import Callable, Optional, Union
+from typing import Any, Callable, Optional, Union
 
-from config import FFMPEG_PATH, LOGGER_PATH, create_app_dir
-from enums import Quality, Type
 from yt_dlp import YoutubeDL  # type: ignore
 from yt_dlp.utils import DownloadError  # type: ignore
 
+from .config import FFMPEG_PATH, LOGGER_PATH, create_app_dir
+from .enums import MusicQuality, Quality, Type
 
-def is_writable(path: Union[str, Path]):
+
+def is_writable(path: Union[str, Path]) -> bool:
     path = Path(path)
     if path.is_dir() and path.exists():
         try:
@@ -30,7 +31,7 @@ def is_writable(path: Union[str, Path]):
     return False
 
 
-def can_write(file: Union[str, Path]):
+def can_write(file: Union[str, Path]) -> bool:
     file = Path(file)
     if file.is_file() and file.exists():
         try:
@@ -46,12 +47,12 @@ def can_write(file: Union[str, Path]):
         except UnicodeDecodeError:
             try:
                 with open(file, "r+b") as fp:
-                    first_char = fp.read(1)
-                    print(first_char)
+                    first_char_b = fp.read(1)
+                    print(first_char_b)
                     fp.seek(0)
                     fp.write(b"0")
                     fp.seek(0)
-                    fp.write(first_char)
+                    fp.write(first_char_b)
             except PermissionError:
                 return False
         return True
@@ -59,10 +60,10 @@ def can_write(file: Union[str, Path]):
 
 
 class Logger:
-    def __init__(self):
+    def __init__(self) -> None:
         self.first_log = True
 
-    def log(self, text: str):
+    def log(self, text: str) -> None:
         create_app_dir()
         if not LOGGER_PATH.exists():
             with open(LOGGER_PATH, "x"):
@@ -78,14 +79,14 @@ class Logger:
             ).isoformat()
             fp.write(f"[{iso_string}]{text}\n")
 
-    def debug(self, msg: str):
+    def debug(self, msg: str) -> None:
         self.log(f"[DEBUG] {msg}")
 
-    def warning(self, msg: str):
+    def warning(self, msg: str) -> None:
         self.log(f"[WARNING] {msg}")
         print(msg)
 
-    def error(self, msg: str):
+    def error(self, msg: str) -> None:
         self.log(f"[ERROR] {msg}")
         print(msg)
 
@@ -98,8 +99,8 @@ class Downloader:
     def dl(
         urls: list[str],
         path: Union[str, Path],
-        options: dict,
-        progress_hooks: Optional[list[Callable]] = None,
+        options: dict[Any, Any],
+        progress_hooks: Optional[list[Callable[..., Any]]] = None,
     ) -> int:
         if progress_hooks is None:
             progress_hooks = []
@@ -112,15 +113,15 @@ class Downloader:
             **options,
         }
         with YoutubeDL(ydl_opts) as ydl:
-            return ydl.download(urls)
+            return ydl.download(urls)  # type: ignore[no-any-return]
 
     @staticmethod
     def video(
         urls: list[str],
         quality: Quality,
         path: Union[str, Path],
-        options: dict = None,
-    ):
+        options: Optional[dict[Any, Any]] = None,
+    ) -> int:
         if options is None:
             options = {}
 
@@ -146,8 +147,8 @@ class Downloader:
         urls: list[str],
         quality: Quality,
         path: Union[str, Path],
-        options: dict = None,
-    ):
+        options: Optional[dict[Any, Any]] = None,
+    ) -> int:
         if options is None:
             options = {}
 
@@ -171,8 +172,8 @@ class Downloader:
         urls: list[str],
         quality: Quality,
         path: Union[str, Path],
-        options: dict = None
-    ):
+        options: Optional[dict[Any, Any]] = None
+    ) -> int:
         if options is None:
             options = {}
 
@@ -198,7 +199,7 @@ class Downloader:
         path: Union[str, Path],
         new_ext: str,
         options: Optional[str] = None
-    ):
+    ) -> None:
         path = Path(path).resolve()
         new = path.with_suffix(new_ext)
         if options:
@@ -230,11 +231,11 @@ class DownloadManager:
         self,
         urls: list[str],
         type_: Type,
-        quality: Quality,
+        quality: Union[Quality, MusicQuality],
         path: Union[str, Path],
         error_callback: Callable[[str, Optional[Exception]], None],
-        **kwargs,
-    ):
+        **kwargs: Any,
+    ) -> None:
         self.urls = urls
         self.type = type_
         self.quality = quality
@@ -245,22 +246,22 @@ class DownloadManager:
         # Only if not parallel
         self.current_thread: Optional[DLThread] = None
         self.current_thread_idx = 0
-        self.thread_done_callback: Optional[Callable[[str], None]] = None
+        self.thread_done_callback: Optional[Callable[[str, Optional[bool]], None]] = None
 
         self.threads: list[DLThread] = []
         self.url_to_threads: dict[str, DLThread] = {}
 
-        def dl(url: str):
+        def dl(url: str) -> None:
             with contextlib.suppress(ThreadKilled):
 
-                def hook(d: dict):
+                def hook(d: dict[Any, Any]) -> None:
                     if self.url_to_threads[url].killed:
                         # Kill only works after the actual download started
                         self.url_to_threads[url].kill()
 
                     if d["status"] == "downloading":
                         percent = int(float(
-                            re.search(
+                            re.search(  # type: ignore[union-attr]
                                 r"([\d\.]+)%", d['_percent_str']
                             ).group(1)
                         ))
@@ -274,8 +275,8 @@ class DownloadManager:
                     elif d["status"] == "error":
                         self.url_to_threads[url].done = True
                         self.url_to_threads[url].errored = True
-                        if self.error_callback:
-                            self.error_callback(url)
+                        if self.error_callback is not None:
+                            self.error_callback(url, None)
                         # XXX if self.thread_done_callback:
                         # XXX     self.thread_done_callback(url, False)
 
@@ -309,7 +310,7 @@ class DownloadManager:
 
     def register_thread_done_callback(
         self, callback: Optional[Callable[[str, Optional[bool]], None]]
-    ):
+    ) -> None:
         self.thread_done_callback = callback
 
     def is_completed(self) -> bool:
@@ -328,12 +329,12 @@ class DownloadManager:
                 return False
         return True
 
-    def start_all(self):
+    def start_all(self) -> None:
         for thread in self.threads:
             if not thread.is_alive() and not thread.killed:
                 thread.start()
 
-    def start_next(self):
+    def start_next(self) -> None:
         try:
             thread_to_start = self.threads[self.current_thread_idx]
             self.current_thread_idx += 1
@@ -342,12 +343,12 @@ class DownloadManager:
         if not thread_to_start.is_alive() and not thread_to_start.killed:
             thread_to_start.start()
 
-    def killall(self):
+    def killall(self) -> None:
         for thread in self.threads:
             thread.kill()
 
 
-def _async_raise(tid, exc):
+def _async_raise(tid: int, exc: Any) -> None:
     if not inspect.isclass(exc):
         raise TypeError("Only types can be raised (not instances)")
 
@@ -366,7 +367,7 @@ class ThreadKilled(Exception):
 
 
 class DLThread(threading.Thread):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         self.percent = 0
         self.done = False
@@ -378,16 +379,18 @@ class DLThread(threading.Thread):
         self.started = True
         return super().start()
 
-    def _get_my_tid(self):
+    def _get_my_tid(self) -> Optional[int]:
         if not self.is_alive():
             raise threading.ThreadError("Thread is not active")
 
         return self.ident
 
-    def raise_exc(self, exc):
-        _async_raise(self._get_my_tid(), exc)
+    def raise_exc(self, exc: Any) -> None:
+        tid = self._get_my_tid()
+        if tid:
+            _async_raise(tid, exc)
 
-    def kill(self):
+    def kill(self) -> None:
         self.killed = True
         if self.started:
             self.raise_exc(ThreadKilled)

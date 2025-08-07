@@ -8,14 +8,16 @@ import urllib.error
 import urllib.request
 import zipimport
 from pathlib import Path
-from typing import Union
+from types import ModuleType
+from typing import Any, Union
 
-import config
 import yt_dlp.version  # type: ignore
-from PyQt6.QtWidgets import QMessageBox
+from PyQt6.QtWidgets import QDialog, QMainWindow, QMessageBox
+
+from . import config
 
 
-def has_internet_connection():
+def has_internet_connection() -> bool:
     url = config.get_config_value("conntest_url")
     try:
         with urllib.request.urlopen(url, timeout=1):
@@ -25,27 +27,27 @@ def has_internet_connection():
     return True
 
 
-def is_valid_url(url):
+def is_valid_url(url: str) -> bool:
     pattern = r'^(http|https):\/\/(([\w.-]+)(\.[\w.-]+)+|localhost)(:\d{4})?([\/\w\.-]*)*\/?(\?[\w-]+=[\w-]+)?(&[\w-]+=[\w-]+)*$'  # noqa
     return bool(re.match(pattern, url))
 
 
-def find_key(dict: dict, value: str):
+def find_key(dict: dict[Any, Any], value: Any) -> Any:
     for k, v in dict.items():
         if v == value:
             return k
 
 
-def restart_process():
+def restart_process() -> None:
     if "__compiled__" in globals():
         os.execv(sys.argv[0], sys.argv)
     else:
         os.execv(sys.executable, [os.path.basename(sys.executable)] + sys.argv)
 
 
-def reload_zip_module(path: Union[str, Path], module: str):
+def reload_zip_module(path: Union[str, Path], module: str) -> ModuleType:
     importlib.invalidate_caches()
-    zipimport._zip_directory_cache = {}
+    zipimport._zip_directory_cache = {}  # type: ignore[attr-defined]
     if module in sys.modules:
         del sys.modules[module]
 
@@ -57,12 +59,12 @@ def reload_zip_module(path: Union[str, Path], module: str):
 
 
 def get_current_ytdlp_version() -> str:
-    return yt_dlp.version.__version__
+    return str(yt_dlp.version.__version__)
 
 
-def open_explorer(path):
+def open_explorer(path: Union[Path, str]) -> None:
     if platform.system() == "Windows":
-        os.startfile(path)
+        os.startfile(path)  # type: ignore[attr-defined]
     elif platform.system() == "Darwin":
         subprocess.Popen(["open", path])
     else:
@@ -82,12 +84,12 @@ def _install_ytdlp(path: Union[str, Path]) -> str:
         )
 
 
-def update_ytdlp():
+def update_ytdlp() -> None:
     config.YT_DLP_PATH.unlink(missing_ok=True)
     _install_ytdlp(config.YT_DLP_PATH)
 
 
-def add_ytdlp_to_path():
+def add_ytdlp_to_path() -> None:
     sys.path.insert(0, str(config.YT_DLP_PATH))
 
 
@@ -97,19 +99,19 @@ def fetch_latest_ytdlp_version() -> str:
             "https://github.com/yt-dlp/yt-dlp-nightly-builds/releases/latest"
         ) as response:
             # Above url redirects to url containing the version
-            out = response.url.split("/")[-1]
+            out: str = response.url.split("/")[-1]
     except urllib.error.URLError:
         raise ConnectionError("Could not fetch latest yt-dlp version")
     return out
 
 
 def is_ytdlp_latest_version() -> bool:
-    installed = yt_dlp.version.__version__
+    installed = str(yt_dlp.version.__version__)
     latest = fetch_latest_ytdlp_version()
     return installed == latest
 
 
-def show_error(parent, title: str, desc: str) -> int:
+def show_error(parent: Union[QDialog, QMainWindow], title: str, desc: str) -> int:
     messagebox = QMessageBox(parent)
     messagebox.setIcon(QMessageBox.Icon.Critical)
     messagebox.setWindowTitle(title)
@@ -119,7 +121,7 @@ def show_error(parent, title: str, desc: str) -> int:
     return messagebox.exec()
 
 
-def show_warning(parent, title: str, desc: str) -> int:
+def show_warning(parent: Union[QDialog, QMainWindow], title: str, desc: str) -> int:
     messagebox = QMessageBox(parent)
     messagebox.setIcon(QMessageBox.Icon.Warning)
     messagebox.setWindowTitle(title)
@@ -129,7 +131,7 @@ def show_warning(parent, title: str, desc: str) -> int:
     return messagebox.exec()
 
 
-def show_info(parent, title: str, desc: str) -> int:
+def show_info(parent: Union[QDialog, QMainWindow], title: str, desc: str) -> int:
     messagebox = QMessageBox(parent)
     messagebox.setIcon(QMessageBox.Icon.Information)
     messagebox.setWindowTitle(title)
@@ -140,7 +142,7 @@ def show_info(parent, title: str, desc: str) -> int:
 
 
 def ask_yes_no_question(
-    parent,
+    parent: Union[QDialog, QMainWindow],
     title: str,
     desc: str,
 ) -> bool:

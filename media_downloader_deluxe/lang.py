@@ -1,17 +1,18 @@
 from __future__ import annotations
 
+from typing import Union
+
 try:
-    import tomllib  # type: ignore
+    import tomllib
 except ImportError:
-    import tomli as tomllib
+    import tomli as tomllib  # type: ignore[no-redef]
 
 from pathlib import Path
-
 
 FALLBACK_LANGUAGE = "en_US"
 
 
-class LangDict(dict):
+class LangDict(dict[str, str]):
     langcode: str
     langs_path: Path
 
@@ -28,7 +29,7 @@ class LangDict(dict):
         return self.__class__.from_langcode(FALLBACK_LANGUAGE)[key]
 
     @classmethod
-    def set_languages_path(cls, path: str | Path) -> None:
+    def set_languages_path(cls, path: Union[str, Path]) -> None:
         cls.langs_path = Path(path)
 
     @classmethod
@@ -41,7 +42,7 @@ class LangDict(dict):
         return obj
 
     @classmethod
-    def from_file(cls, file: Path | str) -> "LangDict":
+    def from_file(cls, file: Union[Path, str]) -> "LangDict":
         """Create a LangDict instance from a toml file."""
         with open(file, mode="r", encoding="utf-8") as fp:
             return cls.from_toml(fp.read())
