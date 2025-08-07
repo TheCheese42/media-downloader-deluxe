@@ -727,7 +727,7 @@ def exchook(*exc_info: Any) -> None:
 
 if __name__ == "__main__":
     sys.excepthook = exchook
-    lang.LangDict.set_languages_path(Path(__file__).parent / "langs")
+    lang.LangDict.set_languages_path(config.LANGS_PATH)
     app = QApplication(sys.argv)
 
     APPICON = QIcon(str(Path(__file__).parent / "icons/appicon.png"))

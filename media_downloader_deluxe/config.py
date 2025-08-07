@@ -22,6 +22,15 @@ FFMPEG_BIN_NAME = "ffmpeg.exe" if platform.system() == "Windows" else "ffmpeg"
 FFMPEG_PATH: Union[str, Path] = (Path(
     __file__
 ).parent / "lib" / "ffmpeg" / "bin" / FFMPEG_BIN_NAME).resolve()
+ROOT_PATH = Path(__file__).parent
+if "__compiled__" in globals():
+    # With nuitka, __file__ will show the file in a subfolder that doesn't
+    # exist.
+    # With nuitka: app_name.dist/app_name/paths.py
+    # Actual: app_name.dist/paths.py
+    # That's why we go back another folder using .parent twice.
+    ROOT_PATH = Path(__file__).parent.parent
+LANGS_PATH = ROOT_PATH / "langs"
 
 
 def config_exists() -> bool:

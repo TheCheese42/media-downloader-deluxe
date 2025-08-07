@@ -1,6 +1,6 @@
 # Media Downloader Deluxe
 
-A "high quality", "tidy" GUI wrapper around yt-dlp.
+A GUI wrapper around yt-dlp.
 
 Useful for downloading videos and music from all kinds of websites.
 
