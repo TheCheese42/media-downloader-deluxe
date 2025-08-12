@@ -18,10 +18,5 @@ lib/
 media_downloader_deluxe/ui/*_ui.py
 
 # wix
-*.wxs
 *.cab
 *.msi
-*.wixobj
-*.wixpdb
-wix.zip
-wix/
