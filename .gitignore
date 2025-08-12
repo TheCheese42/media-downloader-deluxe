@@ -22,3 +22,5 @@ media_downloader_deluxe/ui/*_ui.py
 # wix
 *.cab
 *.msi
+bin/
+obj/
