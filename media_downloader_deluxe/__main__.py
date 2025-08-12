@@ -14,7 +14,7 @@ try:
     import yt_dlp.version  # pyright: ignore[reportMissingImports]
 except ImportError:
     shutil.copyfile(
-        Path(__file__).parent / "lib" / "yt-dlp",
+        config.ROOT_PATH / "lib" / "yt-dlp",
         config.YT_DLP_PATH,
     )
     importlib.invalidate_caches()
@@ -730,7 +730,7 @@ if __name__ == "__main__":
     lang.LangDict.set_languages_path(config.LANGS_PATH)
     app = QApplication(sys.argv)
 
-    APPICON = QIcon(str(Path(__file__).parent / "icons/appicon.png"))
+    APPICON = QIcon(str(config.ROOT_PATH / "icons" / "appicon.png"))
 
     app.setApplicationName("Media Downloader Deluxe")
     app.setFont(QFont("Calibri", 11))

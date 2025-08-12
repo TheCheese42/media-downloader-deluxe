@@ -18,10 +18,6 @@ YT_DLP_PATH = CONFIG_DIR / "yt-dlp"
 SUPPORTED_LOCALES = ["de_DE", "en_US"]
 DEFAULT_LOCALE = "en_US"
 SYSTEM_LOCALE = locale.getlocale()[0]
-FFMPEG_BIN_NAME = "ffmpeg.exe" if platform.system() == "Windows" else "ffmpeg"
-FFMPEG_PATH: Union[str, Path] = (Path(
-    __file__
-).parent / "lib" / "ffmpeg" / "bin" / FFMPEG_BIN_NAME).resolve()
 ROOT_PATH = Path(__file__).parent
 if "__compiled__" in globals():
     # With nuitka, __file__ will show the file in a subfolder that doesn't
@@ -30,6 +26,10 @@ if "__compiled__" in globals():
     # Actual: app_name.dist/paths.py
     # That's why we go back another folder using .parent twice.
     ROOT_PATH = Path(__file__).parent.parent
+FFMPEG_BIN_NAME = "ffmpeg.exe" if platform.system() == "Windows" else "ffmpeg"
+FFMPEG_PATH: Union[str, Path] = (
+    ROOT_PATH / "lib" / "ffmpeg" / "bin" / FFMPEG_BIN_NAME
+).resolve()
 LANGS_PATH = ROOT_PATH / "langs"
 
 
