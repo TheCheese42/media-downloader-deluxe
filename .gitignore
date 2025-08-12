@@ -1,9 +1,11 @@
 # Virtualenv
 .venv/
+venv/
 
 # Nuitka build/dist files
-__main__.build/
-__main__.dist/
+*.build/
+*.dist/
+*.exe
 
 # Python cache
 __pycache__/

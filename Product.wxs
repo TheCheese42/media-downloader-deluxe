@@ -7,7 +7,7 @@
     <Feature Id="ShortcutFeature" Title="Shortcuts" Level="1">
       <ComponentGroupRef Id="ShortcutGroup" />
     </Feature>
-    <Media Id="1" Cabinet="media-downloader-deluxe.cab" EmbedCab="yes" />
+    <Media Id="1" Cabinet="mdd.cab" EmbedCab="yes" />
   </Package>
 
   <Fragment>
